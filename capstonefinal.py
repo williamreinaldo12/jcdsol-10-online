@@ -92,7 +92,7 @@ def submenu4():
           print("1. Hapus Data Pasien menggunakan NIM")
           print("2. Hapus Data Pasien menggunakan Diagnosa")
           print("3. Balik ke Main Menu")
-          submenu = input("Masukkan angka submenu yang ingin dijalankan [1-2]: ")
+          submenu = input("Masukkan angka submenu yang ingin dijalankan [1-3]: ")
           print("\n")
           if submenu == '1':
                choice = input("Ketik Y jika ingin melanjutkan hapus Data, N Jika tidak: ")
