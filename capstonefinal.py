@@ -12,7 +12,8 @@ dftrPasien = {
 }
 
 #Untuk memasukkan Key Baru Bernama 'Lama Rawat' kedalam dftrPasien
-#Karena tidak bisa untuk menggunakan Variable yang belum diassign untuk mengassign Nilai dari Key yang kita mau
+#Karena tidak bisa untuk menggunakan Variable yang belum diassign(Tanggal Masuk & Tanggal Keluar) untuk mengassign Nilai dari Key yang kita mau
+#Karena wakturawat perlu Tanggal Masuk dan Tanggal Keluar
 
 for i in dftrPasien:
     d1 = datetime.strptime(dftrPasien[i]['Tanggal Masuk'], "%Y-%m-%d")
@@ -22,19 +23,19 @@ for i in dftrPasien:
 
 def submenu1():
      
-     
+      
      while(True):
           print("-----Data Pasien Rumah Sakit-----")
           print("1. Print Seluruh Data Pasien")
           print("2. Print Data Pasien Tertentu")
           print("3. Balik ke Main Menu")
-          submenu = int(input("Masukkan angka submenu yang ingin dijalankan [1-3]: "))
+          submenu = input("Masukkan angka submenu yang ingin dijalankan [1-3]: ")
           print("\n")
-          if submenu == 1:
+          if submenu == '1':
                alldata()
-          elif submenu ==2:
+          elif submenu =='2':
                subsubmenu()
-          elif submenu ==3:
+          elif submenu =='3':
                break
           else:
                print("Masukkan Angka 1-3!")
@@ -44,12 +45,12 @@ def submenu2():
           print("-----Menambah Data Pasien-----")
           print("1. Tambah data Pasien")
           print("2. Balik ke Main Menu")
-          submenu = int(input("Masukkan angka submenu yang ingin dijalnkan [1-2]: "))
+          submenu = input("Masukkan angka submenu yang ingin dijalankan [1-2]: ")
           
           print("\n")
-          if submenu == 1:
+          if submenu == '1':
                adddata()
-          elif submenu ==2:     
+          elif submenu == '2':     
                break
           else:
                print("Masukkan Angka 1-2!")
@@ -60,9 +61,9 @@ def submenu3():
           print("1. Ubah seluruh data Pasien")
           print("2. Ubah sebagian data Pasien")
           print("3. Balik ke Main Menu")
-          submenu = int(input("Masukkan angka submenu yang ingin dijalankan [1-3]: "))
+          submenu = input("Masukkan angka submenu yang ingin dijalankan [1-3]: ")
           
-          if submenu == 1:
+          if submenu == '1':
                choice = input("Ketik Y jika ingin melanjutkan update Data, N Jika tidak: ")
                if choice.lower() != 'y' and choice.lower() != 'n':
                     print("Masukkan Y/N!")
@@ -71,7 +72,7 @@ def submenu3():
                     break
                else:
                     break
-          elif submenu ==2:
+          elif submenu == '2':
                choice = input("Ketik Y jika ingin melanjutkan update Data, N Jika tidak: ")
                if choice.lower() != 'y' and choice.lower() != 'n':
                     print("Masukkan Y/N!")
@@ -80,7 +81,7 @@ def submenu3():
                     break
                else:
                     break
-          elif submenu == 3:
+          elif submenu == '3':
                break
           else:
                print("Masukkan Angka 1-3!")
@@ -91,9 +92,9 @@ def submenu4():
           print("1. Hapus Data Pasien menggunakan NIM")
           print("2. Hapus Data Pasien menggunakan Diagnosa")
           print("3. Balik ke Main Menu")
-          submenu = int(input("Masukkan angka submenu yang ingin dijalankan [1-2]: "))
+          submenu = input("Masukkan angka submenu yang ingin dijalankan [1-2]: ")
           print("\n")
-          if submenu == 1:
+          if submenu == '1':
                choice = input("Ketik Y jika ingin melanjutkan hapus Data, N Jika tidak: ")
                if choice.lower() != 'y' and choice.lower() != 'n':
                     print("Masukkan Y/N!")
@@ -102,7 +103,7 @@ def submenu4():
                     break
                else:
                     break
-          elif submenu == 2:
+          elif submenu == '2':
                choice = input("Ketik Y jika ingin melanjutkan hapus Data, N Jika tidak: ")
                if choice.lower() != 'y' and choice.lower() != 'n':
                     print("Masukkan Y/N!")
@@ -111,7 +112,7 @@ def submenu4():
                     break
                else:
                     break
-          elif submenu == 3:
+          elif submenu == '3':
                break
           else:
                print("Masukkan Angka 1-2!")
@@ -121,13 +122,13 @@ def subsubmenu():
           print("1. Print Data Pasien menggunakan NIM")
           print("2. Print Data Pasien lewat Diagnosa")
           print("3. Balik ke menu sebelumnya")
-          submenu = int(input("Masukkan angka submenu yang ingin dijalankan[1-3]: "))
+          submenu = input("Masukkan angka submenu yang ingin dijalankan[1-3]: ")
           print("\n")
-          if submenu == 1:
+          if submenu == '1':
                datatertentu()
-          elif submenu == 2:
+          elif submenu == '2':
                datadiagnosa()
-          elif submenu == 3:
+          elif submenu == '3':
                break
           else:
                print("Masukkan angka 1-3!")
@@ -219,6 +220,8 @@ def adddata():
                if save.lower() != 'y' and save.lower() != 'n':
                     print("Masukkan y/n")
                elif save.lower() == 'y':
+                    #kalau newTglMsk dan newTglKlr tidak di group(), dia akan mereturn value dalam re.Match yang tidak bisa di pakai
+                    #di strptime() yang mengharuskan argumennya dalam bentuk string
                     dftrPasien[index] = {'Nama Depan': newNameFirst, 'Nama Belakang': newNameLast, 'Tanggal Masuk': newTglMsk.group(),
                     'Tanggal Keluar': newTglKlr.group(), 'Diagnosa': newDiagnosa}
                     d1 = datetime.strptime(dftrPasien[index]['Tanggal Masuk'], "%Y-%m-%d")
@@ -253,8 +256,10 @@ def updatefulldata():
                     print("Format harus ada yyyy-mm-dd!")
                else:
                     break
-
+          
           newDiagnosa = input("Masukkan Diagnosa Baru Pasien: ")
+          #kalau newTglMsk dan newTglKlr tidak di group(), dia akan mereturn value dalam re.Match yang tidak bisa di pakai
+          #di strptime() yang mengharuskan argumennya dalam bentuk string
           dftrPasien[index] = {'Nama Depan': newNameFirst, 'Nama Belakang': newNameLast, 'Tanggal Masuk': newTglMsk.group(),
           'Tanggal Keluar': newTglKlr.group(), 'Diagnosa': newDiagnosa}
           d1 = datetime.strptime(dftrPasien[index]['Tanggal Masuk'], "%Y-%m-%d")
@@ -285,6 +290,8 @@ def updatepartialdata():
                               print("Format harus ada yyyy-mm-dd!")
 
                          else:
+                              #kalau Tanggal Masuk dan Tanggal Keluar tidak di group(), dia akan mereturn value dalam re.Match yang tidak bisa di pakai
+                              #di strptime() yang mengharuskan argumennya dalam bentuk string
                               dftrPasien[index][keterangan] = new.group()
                               d1 = datetime.strptime(dftrPasien[index]['Tanggal Masuk'], "%Y-%m-%d")
                               d2 = datetime.strptime(dftrPasien[index]['Tanggal Keluar'], "%Y-%m-%d")
@@ -359,17 +366,17 @@ def menu():
           print("4. Menghapus Data Pasien")
           print("5. Exit")
 
-          menu = int(input("Masukkan angka menu yang ingin dijalankan [1-5]: "))
+          menu = input("Masukkan angka menu yang ingin dijalankan [1-5]: ")
           print("\n")
-          if menu == 1:
+          if menu == '1':
                submenu1()  
-          elif menu == 2:
+          elif menu == '2':
                submenu2()
-          elif menu == 3:
+          elif menu == '3':
                submenu3()
-          elif menu == 4:
+          elif menu == '4':
                submenu4()
-          elif menu == 5:
+          elif menu == '5':
                break
           else:
                print("Masukkan angka 1-5!")
